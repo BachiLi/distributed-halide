@@ -35,7 +35,7 @@ Value *CodeGen_Posix::codegen_allocation_size(const std::string &name, Type type
     if (target.bits < 64) {
         max_size = cast<int64_t>(0x7fffffff);
     } else {
-        max_size = Expr(0x7fffffffffffffff);
+        max_size = Expr(int64_t(0x7fffffffffffffff));
     }
     for (size_t i = 0; i < extents.size(); i++) {
         total_size *= extents[i];

@@ -126,11 +126,11 @@ protected:
 
 vector<GPU_Argument> GPU_Host_Closure::arguments() {
     vector<GPU_Argument> res;
-    for (const pair<string, Type> &i : vars) {
+    for (const auto &i : vars) {
         debug(2) << "var: " << i.first << "\n";
         res.push_back(GPU_Argument(i.first, false, i.second, 0));
     }
-    for (const pair<string, BufferRef> &i : buffers) {
+    for (const auto &i : buffers) {
         debug(2) << "buffer: " << i.first << " " << i.second.size;
         if (i.second.read) debug(2) << " (read)";
         if (i.second.write) debug(2) << " (write)";

@@ -43,9 +43,9 @@ vector<string> realization_order(const vector<Function> &outputs,
     // set describing its inputs.
     map<string, set<string>> graph;
 
-    for (const pair<string, Function> &caller : env) {
+    for (const auto &caller : env) {
         set<string> &s = graph[caller.first];
-        for (const pair<string, Function> &callee : find_direct_calls(caller.second)) {
+        for (const auto &callee : find_direct_calls(caller.second)) {
             s.insert(callee.first);
         }
     }

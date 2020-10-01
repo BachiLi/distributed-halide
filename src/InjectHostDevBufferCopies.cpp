@@ -561,7 +561,7 @@ class InjectBufferCopies : public IRMutator {
         Stmt else_case = mutate(op->else_case);
         else_case = do_copies(else_case);
 
-        for (const pair<string, BufferInfo> &i : copy) {
+        for (const auto &i : copy) {
             const string &buf_name = i.first;
             if (loop_level != i.second.loop_level) {
                 continue;

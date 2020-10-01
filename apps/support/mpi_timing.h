@@ -12,11 +12,12 @@
 using std::numeric_limits;
 using std::vector;
 
+static const MPI_Datatype MPI_TIMING_T = MPI_DOUBLE;
+
 class MPITiming {
 public:
     typedef enum {Min, Max, Median, Mean} Stat;
     typedef double timing_t;
-    static const int MPI_TIMING_T = MPI_DOUBLE;
 
     MPITiming(MPI_Comm c) : _comm(c) {
         MPI_Comm_rank(_comm, &_rank);

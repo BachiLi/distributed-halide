@@ -149,7 +149,7 @@ class KeyInfo {
     size_t parameters_alignment() {
         int32_t max_alignment = 0;
         // Find maximum natural alignment needed.
-        for (const DependencyKeyInfoPair &i : dependencies.dependency_info) {
+        for (const auto &i : dependencies.dependency_info) {
             int alignment = i.second.type.bytes();
             if (alignment > max_alignment) {
                 max_alignment = alignment;
@@ -209,7 +209,7 @@ public:
         }
         key_size_expr = (int32_t)size_so_far;
 
-        for (const DependencyKeyInfoPair &i : dependencies.dependency_info) {
+        for (const auto &i : dependencies.dependency_info) {
             key_size_expr += i.second.size_expr;
         }
     }
@@ -285,7 +285,7 @@ public:
             }
         }
 
-        for (const DependencyKeyInfoPair &i : dependencies.dependency_info) {
+        for (const auto &i : dependencies.dependency_info) {
             writes.push_back(Store::make(key_name,
                                          i.second.value_expr,
                                          (index / i.second.size_expr)));

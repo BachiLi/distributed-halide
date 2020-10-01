@@ -119,7 +119,7 @@ Stmt add_image_checks(Stmt s,
     // references to the required sizes.
     map<string, Expr> replace_with_required;
 
-    for (const pair<string, FindBuffers::Result> &buf : bufs) {
+    for (const auto &buf : bufs) {
         const string &name = buf.first;
 
         for (int i = 0; i < 4; i++) {
@@ -312,7 +312,7 @@ Stmt add_image_checks(Stmt s,
             if (t.bits < 64) {
                 max_size = cast<int64_t>(0x7fffffff);
             } else {
-                max_size = Expr(0x7fffffffffffffff);
+                max_size = Expr(int64_t(0x7fffffffffffffff));
             }
             Expr actual_size = cast<int64_t>(actual_extent) * actual_stride;
             Expr allocation_size_error = Call::make(Int(32), "halide_error_buffer_allocation_too_large",

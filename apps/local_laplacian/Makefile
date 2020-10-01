@@ -1,6 +1,6 @@
 include ../support/Makefile.inc
 
-WITH_MPI ?=
+WITH_MPI ?= 1
 CXX := $(if $(WITH_MPI), mpicxx, $(CXX))
 MPI_CXX_FLAGS=$(if $(WITH_MPI), -DWITH_MPI=1, )
 

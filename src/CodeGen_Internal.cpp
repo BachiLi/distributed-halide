@@ -97,10 +97,10 @@ Closure::Closure(Stmt s, const string &loop_variable, llvm::StructType *buffer_t
 
 vector<llvm::Type*> Closure::llvm_types(LLVMContext *context) {
     vector<llvm::Type *> res;
-    for (const pair<string, Type> &i : vars) {
+    for (const auto &i : vars) {
         res.push_back(llvm_type_of(context, i.second));
     }
-    for (const pair<string, BufferRef> &i : buffers) {
+    for (const auto &i : buffers) {
         res.push_back(llvm_type_of(context, i.second.type)->getPointerTo());
         res.push_back(buffer_t->getPointerTo());
     }
@@ -109,11 +109,11 @@ vector<llvm::Type*> Closure::llvm_types(LLVMContext *context) {
 
 vector<string> Closure::names() {
     vector<string> res;
-    for (const pair<string, Type> &i : vars) {
+    for (const auto &i : vars) {
         debug(2) << "vars:  " << i.first << "\n";
         res.push_back(i.first);
     }
-    for (const pair<string, BufferRef> &i : buffers) {
+    for (const auto &i : buffers) {
         debug(2) << "buffers: " << i.first << "\n";
         res.push_back(i.first + ".host");
         res.push_back(i.first + ".buffer");

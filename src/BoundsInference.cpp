@@ -140,7 +140,7 @@ public:
             // Merge all the relevant boxes.
             Box b;
 
-            for (const pair<pair<string, int>, Box> &i : bounds) {
+            for (const auto &i : bounds) {
                 string func_name = i.first.first;
                 string stage_name = func_name + ".s" + std::to_string(i.first.second);
                 if (stage_name == producing_stage ||
@@ -554,7 +554,7 @@ public:
                 const vector<Expr> &exprs = consumer.exprs;
                 for (size_t j = 0; j < exprs.size(); j++) {
                     map<string, Box> new_boxes = boxes_required(exprs[j], scope, func_bounds);
-                    for (const pair<string, Box> &i : new_boxes) {
+                    for (const auto &i : new_boxes) {
                         merge_boxes(boxes[i.first], i.second);
                     }
                 }

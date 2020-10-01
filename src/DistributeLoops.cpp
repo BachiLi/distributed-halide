@@ -812,7 +812,7 @@ Expr profile_time() {
     // multiple calls from being folded into one (Call node equality
     // just looks at type, name, and args).
     static int id = 0;
-    return Call::make(UInt(64), "halide_distr_time_ns", std::vector<Expr>({id++}), Call::Extern);
+    return Call::make(UInt(64), "halide_distr_time_ns", {id++}, Call::Extern);
 }
 
 // Get or assign an index into the profiling buffer for the given
@@ -845,7 +845,7 @@ Stmt gather_profiling() {
     Stmt rank0copy;
     // Copy rank 0 profiling into gathered buffer
     Expr stride = (int)profile_indices.size();
-    for (const std::pair<std::string, int> &i : profile_indices) {
+    for (const auto &i : profile_indices) {
         int eventidx = i.second;
         Expr val = Load::make(UInt(64), profile_buf, eventidx, Buffer(), Parameter());
         Expr idx = eventidx + rank() * stride;
@@ -876,7 +876,7 @@ Stmt print_profiling(Stmt s) {
     Stmt gather = gather_profiling();
     Expr stride = (int)profile_indices.size();
     Stmt printstmt;
-    for (const std::pair<std::string, int> &i : profile_indices) {
+    for (const auto &i : profile_indices) {
         int eventidx = i.second;
         Expr idx = eventidx + Var("r") * stride;
         Expr val = Load::make(UInt(64), profile_gathered_buf, idx, Buffer(), Parameter());
@@ -1093,7 +1093,7 @@ Stmt communicate_intersection(CommunicateCmd cmd, const AbstractBuffer &buf, con
 Stmt exchange_data(const string &func, const vector<AbstractBuffer> &required, Stmt &sendwait_out) {
     Stmt sendloop, recvloop;
     Stmt sendwait, recvwait;
-    for (const auto it : required) {
+    for (const auto &it : required) {
         const AbstractBuffer &in = it;
         // No border exchanges needed for non-distributed buffers,
         // output images, or scalar buffers (zero dimensional).
@@ -1141,7 +1141,7 @@ Stmt exchange_data(const string &func, const vector<AbstractBuffer> &required, S
 // indices (instead of global).
 Stmt update_io_buffers(Stmt loop, const string &func, const vector<AbstractBuffer> &required,
                        const vector<AbstractBuffer> &provided) {
-    for (const auto it : required) {
+    for (const auto &it : required) {
         const AbstractBuffer &in = it;
         if (in.dimensions() == 0) continue;
         const Box &b = in.shape();
@@ -1156,7 +1156,7 @@ Stmt update_io_buffers(Stmt loop, const string &func, const vector<AbstractBuffe
         }
     }
 
-    for (const auto it : provided) {
+    for (const auto &it : provided) {
         const AbstractBuffer &out = it;
         if (out.dimensions() == 0) continue;
         const Box &b = out.shape();
