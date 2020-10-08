@@ -12,6 +12,7 @@
 #include "CSE.h"
 #include "IREquality.h"
 #include "Solve.h"
+#include "DistributeLoops.h"
 
 using namespace Halide;
 using namespace Halide::Internal;
@@ -29,6 +30,7 @@ int main(int argc, const char **argv) {
     simplify_test();
     solve_test();
     target_test();
+    distribute_loops_test();
 
     return 0;
 }

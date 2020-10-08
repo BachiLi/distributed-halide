@@ -1803,6 +1803,10 @@ bool operator==(const Interval &a, const Interval &b) {
 }
 
 void distribute_loops_test() {
+    int req = MPI_THREAD_MULTIPLE, prov;
+    MPI_Init_thread(nullptr, nullptr, req, &prov);
+    assert(prov == req);
+
     const int w = 20;
     const int numprocs = 2;
     Func clamped("clamped");
@@ -2186,6 +2190,8 @@ void distribute_loops_test() {
     }
 
     std::cout << "Distribute loops internal test passed" << std::endl;
+
+    MPI_Finalize();
 }
 
 }
