@@ -233,13 +233,13 @@ class ClosedScopeBox {
                 topo_visit(v->name, result, unvisited, temp);
             }
         }
-        unvisited.erase(name);
-        temp.erase(name);
         if (val.defined()) {
-            // TODO: this may be inefficient.
-            string copy(name);
-            result.insert(result.begin(), copy);
+            result.insert(result.begin(), name);
         }
+        temp.erase(name);
+        // Important to erase name in unvisited after everything else: it's
+        // where &name is pointing to
+        unvisited.erase(name);
     }
 
     // Because Scope objects are not ordered, we need to perform a
