@@ -1,5 +1,6 @@
 #include "runtime_internal.h"
 #include "HalideRuntimeMPI.h"
+#include <mpi.h>
 
 typedef int (*halide_task)(void *user_context, int, uint8_t *);
 
@@ -46,73 +47,7 @@ struct timespec {
 #define SYS_CLOCK_GETTIME 265
 #endif
 
-#endif
-
-typedef int MPI_Comm;
-#define MPI_COMM_WORLD ((MPI_Comm)0x44000000)
-
-typedef int MPI_Request;
-#define MPI_REQUEST_NULL   ((MPI_Request)0x2c000000)
-
-typedef int MPI_Datatype;
-#define MPI_CHAR           ((MPI_Datatype)0x4c000101)
-#define MPI_SIGNED_CHAR    ((MPI_Datatype)0x4c000118)
-#define MPI_UNSIGNED_CHAR  ((MPI_Datatype)0x4c000102)
-#define MPI_BYTE           ((MPI_Datatype)0x4c00010d)
-#define MPI_WCHAR          ((MPI_Datatype)0x4c00040e)
-#define MPI_SHORT          ((MPI_Datatype)0x4c000203)
-#define MPI_UNSIGNED_SHORT ((MPI_Datatype)0x4c000204)
-#define MPI_INT            ((MPI_Datatype)0x4c000405)
-#define MPI_UNSIGNED       ((MPI_Datatype)0x4c000406)
-#define MPI_LONG           ((MPI_Datatype)0x4c000807)
-#define MPI_UNSIGNED_LONG  ((MPI_Datatype)0x4c000808)
-#define MPI_FLOAT          ((MPI_Datatype)0x4c00040a)
-#define MPI_DOUBLE         ((MPI_Datatype)0x4c00080b)
-#define MPI_LONG_DOUBLE    ((MPI_Datatype)0x4c00100c)
-#define MPI_LONG_LONG_INT  ((MPI_Datatype)0x4c000809)
-#define MPI_UNSIGNED_LONG_LONG ((MPI_Datatype)0x4c000819)
-#define MPI_LONG_LONG      MPI_LONG_LONG_INT
-
-#define MPI_INT8_T            ((MPI_Datatype)0x4c000137)
-#define MPI_INT16_T           ((MPI_Datatype)0x4c000238)
-#define MPI_INT32_T           ((MPI_Datatype)0x4c000439)
-#define MPI_INT64_T           ((MPI_Datatype)0x4c00083a)
-#define MPI_UINT8_T           ((MPI_Datatype)0x4c00013b)
-#define MPI_UINT16_T          ((MPI_Datatype)0x4c00023c)
-#define MPI_UINT32_T          ((MPI_Datatype)0x4c00043d)
-#define MPI_UINT64_T          ((MPI_Datatype)0x4c00083e)
-
-#define MPI_ORDER_C              56
-
-typedef struct MPI_Status {
-    int count_lo;
-    int count_hi_and_cancelled;
-    int MPI_SOURCE;
-    int MPI_TAG;
-    int MPI_ERROR;
-} MPI_Status;
-
-#define MPI_SUCCESS          0      /* Successful return code */
-
-extern int MPI_Comm_size(MPI_Comm, int *);
-extern int MPI_Comm_rank(MPI_Comm, int *);
-extern int MPI_Comm_dup(MPI_Comm comm, MPI_Comm *newcomm);
-extern int MPI_Send(const void *buf, int count, MPI_Datatype datatype, int dest, int tag,
-                    MPI_Comm comm);
-extern int MPI_Isend(const void *buf, int count, MPI_Datatype datatype, int dest, int tag,
-                     MPI_Comm comm, MPI_Request *request);
-extern int MPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int tag,
-                    MPI_Comm comm, MPI_Status *status);
-extern int MPI_Irecv(void *buf, int count, MPI_Datatype datatype, int source, int tag,
-                     MPI_Comm comm, MPI_Request *request);
-extern int MPI_Wait(MPI_Request *request, MPI_Status *status);
-extern int MPI_Waitall(int count, MPI_Request array_of_requests[], MPI_Status array_of_statuses[]);
-
-extern int MPI_Type_commit(MPI_Datatype *datatype);
-extern int MPI_Type_free(MPI_Datatype *datatype);
-extern int MPI_Type_create_subarray(int ndims, const int array_of_sizes[],
-                                    const int array_of_subsizes[], const int array_of_starts[],
-                                    int order, MPI_Datatype oldtype, MPI_Datatype *newtype);
+#endif // SYS_CLOCK_GETTIME
 
 extern void *malloc(size_t);
 extern void *realloc(void *ptr, size_t size);
