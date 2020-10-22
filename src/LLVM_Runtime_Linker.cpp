@@ -595,6 +595,10 @@ llvm::Module *get_initial_module_for_target(Target t, llvm::LLVMContext *c, bool
                 modules.push_back(get_initmod_posix_io(c, bits_64, debug));
                 modules.push_back(get_initmod_gcd_thread_pool(c, bits_64, debug));
                 modules.push_back(get_initmod_osx_get_symbol(c, bits_64, debug));
+
+                if (t.has_feature(Target::MPI)) {
+                    modules.push_back(get_initmod_mpi(c, bits_64, debug));
+                }
             } else if (t.os == Target::Android) {
                 if (t.arch == Target::ARM) {
                     modules.push_back(get_initmod_android_clock(c, bits_64, debug));
